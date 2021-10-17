@@ -74,6 +74,4 @@ Plugins/*/Intermediate/*
 DerivedDataCache/*
 
 # Asset files
-*.fbx
-*.blend
 *.blend1
