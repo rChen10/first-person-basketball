@@ -31,35 +31,37 @@ AFPSProjectile::AFPSProjectile()
 	    // Use this component to drive this projectile's movement.
 	    ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 	    ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
-	    ProjectileMovementComponent->InitialSpeed = 3000.0f;
-	    ProjectileMovementComponent->MaxSpeed = 3000.0f;
-	    ProjectileMovementComponent->bRotationFollowsVelocity = true;
+	    ProjectileMovementComponent->InitialSpeed = 1100.0f;
+	    ProjectileMovementComponent->MaxSpeed = 1100.0f;
+	    ProjectileMovementComponent->bRotationFollowsVelocity = false;
 	    ProjectileMovementComponent->bShouldBounce = true;
 	    ProjectileMovementComponent->Bounciness = 0.3f;
-	    ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
+	    ProjectileMovementComponent->ProjectileGravityScale = 0.2f;
 	}
 
 	if(!ProjectileMeshComponent)
 	{
 	    ProjectileMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ProjectileMeshComponent"));
-	    static ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh(TEXT("StaticMesh'/Game/Sphere.Sphere'"));
+		static ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh(TEXT("'/Game/BasketballOrange.BasketballOrange'"));
+	    //static ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh(TEXT("StaticMesh'/Game/Sphere.Sphere'"));
 	    if(Mesh.Succeeded())
 	    {
 	        ProjectileMeshComponent->SetStaticMesh(Mesh.Object);
 	    }
 	}
 
-	static ConstructorHelpers::FObjectFinder<UMaterial>Material(TEXT("Material'/Game/SphereMaterial.SphereMaterial'"));
+	static ConstructorHelpers::FObjectFinder<UMaterial>Material(TEXT("'/Game/Orange_Team_Color.Orange_Team_Color'"));
 	if (Material.Succeeded())
 	{
 		ProjectileMaterialInstance = UMaterialInstanceDynamic::Create(Material.Object, ProjectileMeshComponent);
 	}
 	ProjectileMeshComponent->SetMaterial(0, ProjectileMaterialInstance);
-	ProjectileMeshComponent->SetRelativeScale3D(FVector(0.09f, 0.09f, 0.09f));
+	ProjectileMeshComponent->SetRelativeScale3D(FVector(0.3f, 0.3f, 0.3f));
 	ProjectileMeshComponent->SetupAttachment(RootComponent);
+	ProjectileMeshComponent->SetSimulatePhysics(true);
 
 	// Delete the projectile after 3 seconds.
-	InitialLifeSpan = 3.0f;
+	//InitialLifeSpan = 3.0f;
 }
 
 // Called when the game starts or when spawned
@@ -85,11 +87,12 @@ void AFPSProjectile::FireInDirection(const FVector& ShootDirection)
 // Function that is called when the projectile hits something.
 void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-    if (OtherActor != this && OtherComponent->IsSimulatingPhysics())
+    /*if (OtherActor != this && OtherComponent->IsSimulatingPhysics())
     {
-        OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
-    }
+		HitComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
+    }*/
+	//HitComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
 
-    Destroy();
+    //Destroy();
 }
 
