@@ -134,6 +134,8 @@ if (ProjectileClass)
 		    AFPSProjectile* Projectile = World->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
 		    if (Projectile)
 		    {
+				// Set projectile's color
+				Projectile->SetIsBlue(true);
 		        // Set the projectile's initial trajectory.
 		        FVector LaunchDirection = MuzzleRotation.Vector();
 		        Projectile->FireInDirection(LaunchDirection);

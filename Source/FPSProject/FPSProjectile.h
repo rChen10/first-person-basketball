@@ -20,6 +20,7 @@ public:
 protected:
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
+    bool bIsBlue;
 
 public:
     // Called every frame
@@ -40,11 +41,24 @@ public:
     UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
     UStaticMeshComponent* ProjectileMeshComponent;
 
-    // Projectile material
+    // Orange Projectile material
     UPROPERTY(VisibleDefaultsOnly, Category = Movement)
-    UMaterialInstanceDynamic* ProjectileMaterialInstance;
+    UMaterialInstanceDynamic* OrangeProjectileMaterialInstance;
+
+    // Blue Projectile material
+    UPROPERTY(VisibleDefaultsOnly, Category = Movement)
+    UMaterialInstanceDynamic* BlueProjectileMaterialInstance;
 
     // Function that is called when the projectile hits something.
     UFUNCTION()
     void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+
+    // Function that determines whether the projectile is Blue.
+    UFUNCTION(BlueprintCallable, Category="Color")
+    bool IsBlue();
+
+    // Function that set whether the projectile is Blue.
+    UFUNCTION(BlueprintCallable, Category="Color")
+    void SetIsBlue(bool newBool);
+
 };

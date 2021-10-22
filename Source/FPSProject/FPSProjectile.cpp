@@ -8,6 +8,7 @@ AFPSProjectile::AFPSProjectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	bIsBlue = false;
 
 	if(!RootComponent)
 	{
@@ -50,12 +51,17 @@ AFPSProjectile::AFPSProjectile()
 	    }
 	}
 
-	static ConstructorHelpers::FObjectFinder<UMaterial>Material(TEXT("'/Game/Orange_Team_Color.Orange_Team_Color'"));
-	if (Material.Succeeded())
+	static ConstructorHelpers::FObjectFinder<UMaterial>OrangeMaterial(TEXT("'/Game/Orange_Team_Color.Orange_Team_Color'"));
+	if (OrangeMaterial.Succeeded())
 	{
-		ProjectileMaterialInstance = UMaterialInstanceDynamic::Create(Material.Object, ProjectileMeshComponent);
+		OrangeProjectileMaterialInstance = UMaterialInstanceDynamic::Create(OrangeMaterial.Object, ProjectileMeshComponent);
 	}
-	ProjectileMeshComponent->SetMaterial(0, ProjectileMaterialInstance);
+	static ConstructorHelpers::FObjectFinder<UMaterial>BlueMaterial(TEXT("'/Game/Blue_Team_Color.Blue_Team_Color'"));
+	if (BlueMaterial.Succeeded())
+	{
+		BlueProjectileMaterialInstance = UMaterialInstanceDynamic::Create(BlueMaterial.Object, ProjectileMeshComponent);
+	}
+	ProjectileMeshComponent->SetMaterial(0, OrangeProjectileMaterialInstance);
 	ProjectileMeshComponent->SetRelativeScale3D(FVector(0.3f, 0.3f, 0.3f));
 	ProjectileMeshComponent->SetupAttachment(RootComponent);
 	ProjectileMeshComponent->SetSimulatePhysics(true);
@@ -95,4 +101,21 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor
 
     //Destroy();
 }
+
+bool AFPSProjectile::IsBlue()
+{
+	return bIsBlue;
+}
+
+void AFPSProjectile::SetIsBlue(bool newBool)
+{
+	bIsBlue = newBool;
+	if (newBool) {
+		ProjectileMeshComponent->SetMaterial(0, BlueProjectileMaterialInstance);
+	}
+	else {
+		ProjectileMeshComponent->SetMaterial(0, OrangeProjectileMaterialInstance);
+	}
+}
+
 
