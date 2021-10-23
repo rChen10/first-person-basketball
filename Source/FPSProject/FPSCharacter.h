@@ -21,6 +21,8 @@ AFPSCharacter();
 protected:
 // Called when the game starts or when spawned
 virtual void BeginPlay() override;
+bool bIsHolding;
+bool bIsProjBlue;
 
 // Projectile class to spawn.
 UPROPERTY(EditDefaultsOnly, Category = Projectile)
@@ -52,6 +54,22 @@ void StopJump();
 // Function that fires projectiles.
 UFUNCTION()
 void Fire();
+
+// Function that determines whether the projectile is Blue.
+UFUNCTION(BlueprintCallable, Category = "Hold")
+bool IsHolding();
+
+// Function that set whether the projectile is Blue.
+UFUNCTION(BlueprintCallable, Category = "Hold")
+void SetIsHolding(bool newBool);
+
+// Function that determines whether the projectile is Blue.
+UFUNCTION(BlueprintCallable, Category = "Color")
+bool IsProjBlue();
+
+// Function that set whether the projectile is Blue.
+UFUNCTION(BlueprintCallable, Category = "Color")
+void SetIsProjBlue(bool newBool);
 
 // FPS camera
 UPROPERTY(VisibleAnywhere)
